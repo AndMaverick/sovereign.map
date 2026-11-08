@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sovereign.map"
+version = "0.1.0"
+description = "Check AI data flows against data residency rules you define: violations, jurisdiction exposure, and egress. Not legal advice. Dependency-free Python."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "AndMaverick LLC" }]
+
+[tool.setuptools.packages.find]
+include = ["sovereign_map*"]
