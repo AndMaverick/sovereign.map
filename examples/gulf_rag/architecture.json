@@ -1,0 +1,26 @@
+{
+  "nodes": [
+    {"name": "mobile-app", "jurisdiction": "AE", "operator": "AE", "kind": "client"},
+    {"name": "api-gateway", "jurisdiction": "AE-DXB", "operator": "AE", "kind": "service"},
+    {"name": "doc-store", "jurisdiction": "AE-AUH", "operator": "AE", "kind": "datastore"},
+    {"name": "vector-db", "jurisdiction": "AE-DXB", "operator": "AE", "kind": "datastore"},
+    {"name": "embeddings-api", "jurisdiction": "US-East", "operator": "US", "kind": "model"},
+    {"name": "llm-gulf-region", "jurisdiction": "AE-DXB", "operator": "US", "kind": "model"},
+    {"name": "llm-local", "jurisdiction": "AE-AUH", "operator": "AE", "kind": "model"},
+    {"name": "log-saas", "jurisdiction": "DE", "operator": "DE", "kind": "observability"},
+    {"name": "analytics-saas", "jurisdiction": "unknown", "kind": "observability"},
+    {"name": "dr-site", "jurisdiction": "SA-RUH", "operator": "SA", "kind": "datastore"}
+  ],
+  "flows": [
+    {"src": "mobile-app", "dst": "api-gateway", "data_class": "customer-pii", "protections": ["tls"]},
+    {"src": "api-gateway", "dst": "doc-store", "data_class": "customer-pii", "protections": ["tls"]},
+    {"src": "doc-store", "dst": "vector-db", "data_class": "financial-records", "protections": ["tls"]},
+    {"src": "vector-db", "dst": "embeddings-api", "data_class": "financial-records", "protections": ["tls"], "note": "chunks sent to embed them"},
+    {"src": "api-gateway", "dst": "llm-gulf-region", "data_class": "customer-pii", "protections": ["tls"]},
+    {"src": "api-gateway", "dst": "llm-local", "data_class": "customer-pii", "protections": ["tls"]},
+    {"src": "doc-store", "dst": "dr-site", "data_class": "financial-records", "mechanism": "bilateral-agreement", "protections": ["tls", "customer-key"]},
+    {"src": "api-gateway", "dst": "log-saas", "data_class": "telemetry", "protections": ["tls"]},
+    {"src": "api-gateway", "dst": "log-saas", "data_class": "health-notes", "mechanism": "consent", "protections": ["tls"]},
+    {"src": "mobile-app", "dst": "analytics-saas", "data_class": "usage-events"}
+  ]
+}

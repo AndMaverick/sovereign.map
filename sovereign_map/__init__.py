@@ -1,66 +1,19 @@
-"""sovereign.map: check AI data flows against residency rules you define. Not legal advice."""
-
+"""sovereign.map: model where data goes when an AI system runs and check it against residency, control and transfer rules you
+define. Not legal advice: it enforces the rules you give it and does not know what the law requires."""
 from __future__ import annotations
 
-from collections import defaultdict
-from dataclasses import dataclass
+__version__ = "0.2.0"
 
-__version__ = "0.1.0"
+from .diff import Diff, diff  # noqa: E402
+from .engine import RULES, Report, audit, check, evaluate, flow_findings  # noqa: E402
+from .graph import cross_border, egress, exposure, holders, orphans, paths, reach, sinks  # noqa: E402
+from .labels import BUILTIN_GROUPS, covers  # noqa: E402
+from .model import Architecture, Finding, Flow, Node, Violation, fingerprint  # noqa: E402
+from .policy import Policy, TransferRule  # noqa: E402
+from .render import to_dot, to_markdown, to_mermaid, to_sarif, to_text  # noqa: E402
 
-
-@dataclass(frozen=True)
-class Node:
-    name: str
-    jurisdiction: str  # any label you choose: "AE", "EU", "US-East", "on-prem"
-
-
-@dataclass(frozen=True)
-class Flow:
-    src: str
-    dst: str
-    data_class: str
-
-
-@dataclass(frozen=True)
-class Violation:
-    flow: Flow
-    reason: str
-
-
-def check(nodes: dict, flows, allowed: dict) -> list:
-    """Return every flow that breaks a rule.
-
-    allowed maps a data class to the set of jurisdictions it may be processed in.
-    A data class with no entry is unrestricted. Both ends of a flow must comply,
-    because data is processed at the source as well as at the destination.
-    """
-    violations = []
-    for flow in flows:
-        missing = [n for n in (flow.src, flow.dst) if n not in nodes]
-        if missing:
-            violations.append(Violation(flow, f"unknown node: {', '.join(missing)}"))
-            continue
-        permitted = allowed.get(flow.data_class)
-        if permitted is None:
-            continue
-        for end in (flow.src, flow.dst):
-            where = nodes[end].jurisdiction
-            if where not in permitted:
-                violations.append(Violation(flow, f"{flow.data_class} may not be processed in {where} ({end})"))
-    return violations
-
-
-def exposure(nodes: dict, flows) -> dict:
-    """For each data class, the set of jurisdictions it touches."""
-    touched: dict = defaultdict(set)
-    for flow in flows:
-        for end in (flow.src, flow.dst):
-            if end in nodes:
-                touched[flow.data_class].add(nodes[end].jurisdiction)
-    return {k: sorted(v) for k, v in sorted(touched.items())}
-
-
-def egress(nodes: dict, flows, home: str) -> list:
-    """Flows that leave the home jurisdiction."""
-    return [f for f in flows if f.src in nodes and f.dst in nodes
-            and nodes[f.src].jurisdiction == home and nodes[f.dst].jurisdiction != home]
+__all__ = [
+    "BUILTIN_GROUPS", "RULES", "Architecture", "Diff", "Finding", "Flow", "Node", "Policy", "Report", "TransferRule", "Violation",
+    "audit", "check", "covers", "cross_border", "diff", "egress", "evaluate", "exposure", "fingerprint", "flow_findings", "holders",
+    "orphans", "paths", "reach", "sinks", "to_dot", "to_markdown", "to_mermaid", "to_sarif", "to_text",
+]

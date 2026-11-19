@@ -1,0 +1,66 @@
+{
+  "name": "Illustrative policy for a Gulf retail bank assistant. These are example rules, not legal advice.",
+  "home": "AE",
+  "classes": {
+    "health-notes": "customer-pii"
+  },
+  "open": [
+    "telemetry"
+  ],
+  "processing": {
+    "customer-pii": [
+      "AE",
+      "SA"
+    ],
+    "financial-records": [
+      "AE",
+      "SA"
+    ],
+    "health-notes": [
+      "AE"
+    ]
+  },
+  "deny": {
+    "financial-records": [
+      "US",
+      "CN",
+      "RU"
+    ]
+  },
+  "control": {
+    "financial-records": [
+      "AE",
+      "SA"
+    ],
+    "customer-pii": [
+      "AE",
+      "SA"
+    ]
+  },
+  "transfer": {
+    "customer-pii": {
+      "mechanisms": [
+        "bilateral-agreement",
+        "consent"
+      ],
+      "free_within": [
+        "GCC"
+      ],
+      "protections": [
+        "tls"
+      ]
+    },
+    "financial-records": {
+      "mechanisms": [
+        "bilateral-agreement"
+      ],
+      "free_within": [
+        "GCC"
+      ],
+      "protections": [
+        "tls",
+        "customer-key"
+      ]
+    }
+  }
+}
