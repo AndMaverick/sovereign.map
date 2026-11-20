@@ -146,6 +146,6 @@ MIT licensed. Built by [AndMaverick LLC](https://www.andmaverick.com).
 
 ---
 
-**Related reading:** [Your AI Has a Passport Problem](https://blog.andmaverick.com/your-ai-has-a-passport-problem?utm_source=github&utm_medium=repo&utm_campaign=sovereign.map)
+**Read the thinking:** [Your AI Has a Passport Problem](https://blog.andmaverick.com/your-ai-has-a-passport-problem?utm_source=github&utm_medium=repo&utm_campaign=sovereign.map)
 
 **If this is your problem.** If your data, language, or jurisdiction sits outside the assumptions of American AI infrastructure, that is work I do. Let us talk. [Begin a conversation](https://calendly.com/andmaverick?utm_source=github&utm_medium=repo&utm_campaign=sovereign.map).
