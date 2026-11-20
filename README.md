@@ -144,6 +144,8 @@ python -m unittest discover -s tests -t . -v
 
 86 tests, run on Python 3.10 to 3.13 in CI with ruff and mypy in strict mode. CI also runs the reference architecture through the CLI.
 
+**Related repositories:** [mao-framework](https://github.com/AndMaverick/mao-framework) has a smaller module, `mao.sovereign`, that checks data flows against residency rules inside a governed run. [lisan](https://github.com/AndMaverick/lisan) and [nusantara](https://github.com/AndMaverick/nusantara) read Arabic and Indonesian text into clean values before a model sees it.
+
 MIT licensed. Built by [AndMaverick LLC](https://www.andmaverick.com).
 
 ---
